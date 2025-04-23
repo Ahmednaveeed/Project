@@ -1,0 +1,117 @@
+.edit-profile-container {
+  max-width: 500px;
+  margin: 2rem auto;
+  padding: 2.5rem;
+  border-radius: 12px;
+  background: white;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.edit-profile-container h1 {
+  color: #2c3e50;
+  text-align: center;
+  margin-bottom: 1.8rem;
+  font-size: 2rem;
+  font-weight: 600;
+}
+
+.edit-profile-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.form-group {
+  position: relative;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 0.5rem;
+  color: #34495e;
+  font-weight: 500;
+  font-size: 0.95rem;
+}
+
+.form-group input {
+  width: 100%;
+  padding: 0.9rem 1.2rem;
+  border: 2px solid #e0e6ed;
+  border-radius: 8px;
+  font-size: 1rem;
+  transition: all 0.3s ease;
+  background-color: #f8fafc;
+}
+
+.form-group input:focus {
+  border-color: #3498db;
+  background-color: white;
+  box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.1);
+  outline: none;
+}
+
+.button-group {
+  display: flex;
+  justify-content: flex-end;
+  gap: 1rem;
+  margin-top: 1.5rem;
+}
+
+.button-group button {
+  padding: 0.8rem 1.5rem;
+  border-radius: 8px;
+  font-size: 0.95rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.button-group button:first-child {
+  background-color: #f1f5f9;
+  color: #64748b;
+  border: 1px solid #e2e8f0;
+}
+
+.button-group button:first-child:hover {
+  background-color: #e2e8f0;
+}
+
+.button-group button:last-child {
+  background-color: #3498db;
+  color: white;
+  border: none;
+  box-shadow: 0 2px 5px rgba(52, 152, 219, 0.2);
+}
+
+.button-group button:last-child:hover {
+  background-color: #2980b9;
+  transform: translateY(-1px);
+}
+
+/* Floating label animation (optional) */
+.form-group input:not(:placeholder-shown) + .floating-label,
+.form-group input:focus + .floating-label {
+  top: -10px;
+  left: 10px;
+  font-size: 0.8rem;
+  background: white;
+  padding: 0 5px;
+  color: #3498db;
+}
+
+/* Responsive design */
+@media (max-width: 600px) {
+  .edit-profile-container {
+    margin: 1rem;
+    padding: 1.5rem;
+  }
+  
+  .button-group {
+    flex-direction: column;
+  }
+  
+  .button-group button {
+    width: 100%;
+  }
+}

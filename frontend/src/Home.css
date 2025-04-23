@@ -1,0 +1,136 @@
+/* Base Styles */
+.home-container {
+  position: relative;
+  height: 100vh;
+  width: 100%;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.7)), 
+              url('https://images.unsplash.com/photo-1502224562085-639556652f33?ixlib=rb-1.2.1&auto=format&fit=crop&w=1920&q=80') no-repeat center center;
+  background-size: cover;
+  color: white;
+  text-align: center;
+}
+
+.content-wrapper {
+  z-index: 2;
+  max-width: 800px;
+  padding: 2rem;
+  animation: fadeIn 1.5s ease-out;
+}
+
+h1 {
+  font-size: 3.5rem;
+  font-weight: 800;
+  margin-bottom: 1rem;
+  text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.5);
+  background: linear-gradient(to right, #ffffff, #e0e0e0);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.subtitle {
+  font-size: 1.5rem;
+  margin-bottom: 0.5rem;
+  font-weight: 300;
+}
+
+.tagline {
+  font-size: 1.2rem;
+  margin-bottom: 2rem;
+  opacity: 0.9;
+}
+
+.buttons-container {
+  display: flex;
+  gap: 20px;
+  justify-content: center;
+  margin-top: 2rem;
+  flex-wrap: wrap;
+}
+
+.home-button {
+  padding: 15px 30px;
+  font-size: 1.1rem;
+  border-radius: 50px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.4s ease;
+  border: none;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+}
+
+.login-btn {
+  background: linear-gradient(135deg, #007bff, #00bfff);
+  color: white;
+}
+
+.register-btn {
+  background: rgba(255, 255, 255, 0.2);
+  color: white;
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+.home-button:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+}
+
+.login-btn:hover {
+  background: linear-gradient(135deg, #0069d9, #0095ff);
+}
+
+.register-btn:hover {
+  background: rgba(255, 255, 255, 0.3);
+}
+
+/* Road Animation */
+.road-animation {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  height: 120px;
+  background: url('https://www.transparentpng.com/thumb/road/highway-road-clipart-png-8.png') repeat-x;
+  background-size: contain;
+  animation: roadMove 20s linear infinite;
+  z-index: 1;
+}
+
+/* Animations */
+@keyframes roadMove {
+  0% { background-position: 0 0; }
+  100% { background-position: -2000px 0; }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  h1 {
+    font-size: 2.5rem;
+  }
+  
+  .subtitle {
+    font-size: 1.2rem;
+  }
+  
+  .buttons-container {
+    flex-direction: column;
+    gap: 15px;
+  }
+  
+  .home-button {
+    width: 100%;
+  }
+  
+  .road-animation {
+    height: 80px;
+  }
+}
