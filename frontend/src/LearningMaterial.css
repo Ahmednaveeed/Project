@@ -1,0 +1,103 @@
+.material-container {
+    text-align: center;
+    padding: 2rem;
+    background-color: #f4f4f4;
+    min-height: 100vh;
+  }
+  
+  .material-title {
+    font-size: 2rem;
+    margin-bottom: 2rem;
+    color: #2c3e50;
+  }
+  
+  .material-grid {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 2rem;
+  }
+  
+  .material-card {
+    background: white;
+    padding: 1.5rem;
+    border-radius: 10px;
+    width: 200px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s;
+  }
+  
+  .material-card:hover {
+    transform: translateY(-5px);
+  }
+  
+  .pdf-icon {
+    width: 80px;
+    height: 80px;
+    margin-bottom: 1rem;
+  }
+  
+  .view-link {
+    display: inline-block;
+    margin-top: 0.5rem;
+    background-color: #3498db;
+    color: white;
+    padding: 6px 12px;
+    border-radius: 5px;
+    text-decoration: none;
+    font-weight: bold;
+  }
+  
+  .view-link:hover {
+    background-color: #2980b9;
+  }
+  
+  .material-grid {
+    display: flex;
+    gap: 30px;
+    flex-wrap: wrap;
+    justify-content: start;
+    margin-top: 30px;
+  }
+  
+  .material-card {
+    background-color: white;
+    border-radius: 10px;
+    padding: 25px;
+    width: 220px;
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.08);
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-align: center;
+  }
+  
+  .material-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+  }
+  
+  .material-icon {
+    font-size: 50px;
+    margin-bottom: 15px;
+  }
+  
+  .red-icon {
+    color: #e74c3c;
+  }
+  
+  .blue-icon {
+    color: #3498db;
+  }
+  
+  .material-title {
+    font-weight: bold;
+    font-size: 1.1rem;
+    margin-bottom: 5px;
+    color: #2c3e50;
+  }
+  
+  .material-desc {
+    font-size: 0.9rem;
+    color: #7f8c8d;
+  }
+  

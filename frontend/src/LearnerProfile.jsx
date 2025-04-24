@@ -61,7 +61,7 @@ const LearnerProfile = () => {
         <ul className="sidebar-menu">
           <li className="active" onClick={() => navigateTo('/profile')}>My Profile</li>
           <li onClick={() => navigateTo('/bookings')}>View Bookings</li>
-          <li onClick={() => navigateTo('/learning-material')}>Learning Material</li>
+          <li onClick={() => navigate('/learning-material')}>Learning Materials</li>
           <li onClick={() => navigateTo('/quiz')}>Take Quiz</li>
           <li onClick={() => navigate('/book-instructor')}>Book Instructor</li>
           <li className="logout-item" onClick={handleLogout}>

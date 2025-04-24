@@ -13,6 +13,7 @@ import ViewUsers from "./ViewUsers";
 import AdminProfile from "./AdminProfile"; // Import the AdminProfile component
 import Quiz from "./Quiz"; // Import the Quiz component
 import BookInstructor from "./BookInstructor"; // Import the BookInstructor component
+import LearningMaterial from "./LearningMaterial"; // Import the LearningMaterial component
 
 function App() {
   return (
@@ -27,6 +28,7 @@ function App() {
         <Route path="/Learnerprofile" element={<LearnerProfile />} />
         <Route path="/InstructorProfile" element={<InstructorProfile />} />
         {/* Placeholder routes for navigation */}
+        <Route path="/learning-material" element={<LearningMaterial />} />
         <Route path="/book-instructor" element={<BookInstructor />} />
         <Route path="/quiz" element={<Quiz />} />
         <Route path="/AdminProfile" element={<AdminProfile />} />
