@@ -1,34 +1,26 @@
-import { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import './ViewBookings.css';
+import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import "./LearnerProfile.css"; // Reuse styles for sidebar and layout
+import "./ViewBookings.css";  // Additional styles for bookings
 
 const ViewBookings = () => {
   const navigate = useNavigate();
   const [bookings, setBookings] = useState([]);
-  const [userEmail, setUserEmail] = useState("");
 
   useEffect(() => {
-    const currentUser = JSON.parse(localStorage.getItem("currentUser"));
-    if (!currentUser || !localStorage.getItem("authToken")) {
-      navigate("/login");
-      return;
-    }
-
-    setUserEmail(currentUser.email);
-
     const allBookings = JSON.parse(localStorage.getItem("bookings")) || [];
-    const userBookings = allBookings.filter(booking => booking.learnerEmail === currentUser.email);
+    const currentUser = JSON.parse(localStorage.getItem("currentUser"));
+    const userBookings = allBookings.filter(b => b.email === currentUser?.email);
     setBookings(userBookings);
-  }, [navigate]);
+  }, []);
+
+  const currentBookings = bookings.filter(b => new Date(b.date) >= new Date());
+  const pastBookings = bookings.filter(b => new Date(b.date) < new Date());
 
   const handleLogout = () => {
     localStorage.removeItem("authToken");
     localStorage.removeItem("currentUser");
     navigate("/login");
-  };
-
-  const isPast = (date) => {
-    return new Date(date) < new Date();
   };
 
   return (
@@ -38,7 +30,7 @@ const ViewBookings = () => {
         <h2 className="sidebar-title">DriveMaster</h2>
         <ul className="sidebar-menu">
           <li onClick={() => navigate("/LearnerProfile")}>My Profile</li>
-          <li className="active">View Bookings</li>
+          <li className="active" onClick={() => navigate("/bookings")}>View Bookings</li>
           <li onClick={() => navigate("/learning-material")}>Learning Material</li>
           <li onClick={() => navigate("/quiz")}>Take Quiz</li>
           <li onClick={() => navigate("/book-instructor")}>Book Instructor</li>
@@ -48,28 +40,43 @@ const ViewBookings = () => {
         </ul>
       </div>
 
-      {/* Main Content */}
+      {/* Content */}
       <div className="profile-content">
         <h1 className="profile-header">My Bookings</h1>
-        <p className="profile-subheader">Below are your current and past bookings.</p>
+        <p className="profile-subheader">View your scheduled and past driving lessons</p>
 
-        <div className="booking-grid">
-          {bookings.length === 0 ? (
-            <p className="no-booking-text">You have no bookings yet.</p>
-          ) : (
-            bookings.map((booking, index) => (
-              <div
-                key={index}
-                className={`booking-card ${isPast(booking.date) ? "past" : "upcoming"}`}
-              >
-                <h3>{booking.instructorName}</h3>
-                <p><strong>Date:</strong> {booking.date}</p>
-                <p><strong>Time:</strong> {booking.time}</p>
-                <p><strong>Vehicle:</strong> {booking.vehicleType}</p>
-                <span className="badge">{isPast(booking.date) ? "Past" : "Upcoming"}</span>
-              </div>
-            ))
-          )}
+        <div className="bookings-section">
+          <div className="bookings-column">
+            <h2>📅 Upcoming Bookings</h2>
+            {currentBookings.length > 0 ? (
+              currentBookings.map((b, index) => (
+                <div key={index} className="booking-card upcoming">
+                  <h4>{b.instructorName}</h4>
+                  <p><strong>Date:</strong> {b.date}</p>
+                  <p><strong>Time:</strong> {b.time}</p>
+                  <p><strong>Vehicle:</strong> {b.vehicle}</p>
+                </div>
+              ))
+            ) : (
+              <p className="no-bookings">No upcoming bookings found.</p>
+            )}
+          </div>
+
+          <div className="bookings-column">
+            <h2>✅ Past Bookings</h2>
+            {pastBookings.length > 0 ? (
+              pastBookings.map((b, index) => (
+                <div key={index} className="booking-card past">
+                  <h4>{b.instructorName}</h4>
+                  <p><strong>Date:</strong> {b.date}</p>
+                  <p><strong>Time:</strong> {b.time}</p>
+                  <p><strong>Vehicle:</strong> {b.vehicle}</p>
+                </div>
+              ))
+            ) : (
+              <p className="no-bookings">No past bookings found.</p>
+            )}
+          </div>
         </div>
       </div>
     </div>
