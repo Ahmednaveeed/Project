@@ -10,6 +10,16 @@ const Login = () => {
   const navigate = useNavigate();
 
   const handleLogin = () => {
+    if (role === 'admin' && email === 'admin@gmail.com' && password === '123456') {
+      localStorage.setItem('authToken', 'mock-admin-token');
+      localStorage.setItem('currentAdmin', JSON.stringify({
+        name: 'Admin User',
+        email: 'admin@gmail.com'
+      }));
+      navigate('/AdminProfile');
+      return;
+    }
+
     // Get all registered users
     const users = JSON.parse(localStorage.getItem("users")) || [];
     
@@ -80,6 +90,7 @@ const Login = () => {
             <select value={role} onChange={(e) => setRole(e.target.value)}>
               <option value="learner">Learner</option>
               <option value="instructor">Instructor</option>
+              <option value="admin">Admin</option>
             </select>
           </div>
 
