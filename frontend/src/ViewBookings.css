@@ -1,0 +1,57 @@
+.booking-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 20px;
+    margin-top: 30px;
+  }
+  
+  .booking-card {
+    background-color: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+    position: relative;
+    transition: transform 0.3s ease;
+  }
+  
+  .booking-card:hover {
+    transform: translateY(-5px);
+  }
+  
+  .booking-card h3 {
+    margin: 0 0 10px;
+    color: #2c3e50;
+  }
+  
+  .booking-card p {
+    margin: 6px 0;
+    font-size: 0.95rem;
+    color: #555;
+  }
+  
+  .badge {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    padding: 5px 10px;
+    font-size: 0.8rem;
+    border-radius: 5px;
+    color: white;
+    font-weight: bold;
+  }
+  
+  .booking-card.upcoming .badge {
+    background-color: #2ecc71;
+  }
+  
+  .booking-card.past .badge {
+    background-color: #e74c3c;
+  }
+  
+  .no-booking-text {
+    color: #999;
+    font-style: italic;
+    margin-top: 20px;
+    font-size: 1rem;
+  }
+  
