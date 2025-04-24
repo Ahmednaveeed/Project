@@ -10,13 +10,33 @@ const Login = () => {
   const navigate = useNavigate();
 
   const handleLogin = () => {
-    const storedEmail = localStorage.getItem("email");
-    const storedPassword = localStorage.getItem("password");
-    const storedRole = localStorage.getItem("userRole");
+    // Get all registered users
+    const users = JSON.parse(localStorage.getItem("users")) || [];
+    
+    // Find matching user
+    const user = users.find(u => 
+      u.email === email && 
+      u.password === password && 
+      u.role === role
+    );
 
-    if (email === storedEmail && password === storedPassword && role === storedRole) {
+    if (user) {
+      // Set auth token and current user
+      localStorage.setItem("authToken", "mock-token");
+      localStorage.setItem("currentUser", JSON.stringify(user));
+      
       // Redirect based on role
       if (role === "instructor") {
+        // Initialize instructor data if doesn't exist
+        if (!localStorage.getItem("instructorData")) {
+          localStorage.setItem("instructorData", JSON.stringify({
+            ...user,
+            hourlyRate: 1000, // Default rate
+            availability: true,
+            experience: "Not specified",
+            vehicle: null
+          }));
+        }
         navigate("/InstructorProfile");
       } else {
         navigate("/LearnerProfile");
@@ -32,6 +52,8 @@ const Login = () => {
         <h1 className="login-title">Road Master</h1>
         <h2 className="login-subtitle">Login to Your Account</h2>
         
+        {error && <div className="error-message">{error}</div>}
+
         <div className="login-form">
           <div className="form-group">
             <label>Email</label>
