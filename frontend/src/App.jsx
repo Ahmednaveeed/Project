@@ -7,6 +7,8 @@ import EditProfile from "./EditProfile";
 import LearnerProfile from "./LearnerProfile";
 import InstructorProfile from "./InstructorProfile"; 
 import ChangePassword from "./ChangePassword";
+import InstructorEditProfile from "./InstructorEditProfile";
+import AddVehicle from "./AddVehicle";
 
 function App() {
   return (
@@ -17,10 +19,12 @@ function App() {
         <Route path="/register" element={<Register />} />
         <Route path="/dashboard" element={<Dashboard />} />
         <Route path="/edit-profile" element={<EditProfile />} />
+        <Route path="/InstructorEditProfile" element={<InstructorEditProfile />} />
         <Route path="/Learnerprofile" element={<LearnerProfile />} />
         <Route path="/InstructorProfile" element={<InstructorProfile />} />
         {/* Placeholder routes for navigation */}
         <Route path="/change-password" element={<ChangePassword />} />
+        <Route path="/add-vehicle" element={<AddVehicle />} />
         <Route path="/bookings" element={<div>Bookings Page</div>} />
         <Route path="/learning-material" element={<div>Learning Material Page</div>} />
         <Route path="/quiz" element={<div>Quiz Page</div>} />
