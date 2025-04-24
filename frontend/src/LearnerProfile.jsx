@@ -1,16 +1,38 @@
+import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './LearnerProfile.css';
 
 const LearnerProfile = () => {
   const navigate = useNavigate();
-
-  // Sample user data (replace with actual data from your state/backend)
-  const userData = {
-    fullName: 'sauleh',
-    email: '1221132@nu.edu.pk',
-    age: '18',
+  const [userData, setUserData] = useState({
+    fullName: '',
+    email: '',
+    age: '',
     accountType: 'User'
-  };
+  });
+
+  // Check authentication and load user data
+  useEffect(() => {
+    if (!localStorage.getItem('authToken')) {
+      navigate('/login');
+      return;
+    }
+
+    // Load user data from localStorage
+    const currentUser = JSON.parse(localStorage.getItem('currentUser')) || {
+      fullName: 'sauleh',
+      email: '1221132@nu.edu.pk',
+      age: '18',
+      role: 'learner'
+    };
+
+    setUserData({
+      fullName: currentUser.fullName,
+      email: currentUser.email,
+      age: currentUser.age,
+      accountType: currentUser.role === 'instructor' ? 'Instructor' : 'User'
+    });
+  }, [navigate]);
 
   const handleEditProfile = () => {
     navigate('/edit-profile');
@@ -25,10 +47,10 @@ const LearnerProfile = () => {
   };
 
   const handleLogout = () => {
-    // Clear authentication data
-    localStorage.removeItem('userData');
+    // Clear only authentication-related data
     localStorage.removeItem('authToken');
-    navigate('/');
+    localStorage.removeItem('currentUser');
+    navigate('/login');
   };
 
   return (
@@ -42,6 +64,9 @@ const LearnerProfile = () => {
           <li onClick={() => navigateTo('/learning-material')}>Learning Material</li>
           <li onClick={() => navigateTo('/quiz')}>Take Quiz</li>
           <li onClick={() => navigateTo('/book-instructor')}>Book Instructor</li>
+          <li className="logout-item" onClick={handleLogout}>
+            <span className="logout-icon">⎋</span> Logout
+          </li>
         </ul>
       </div>
 
@@ -49,9 +74,6 @@ const LearnerProfile = () => {
       <div className="profile-content">
         <div className="profile-header-section">
           <h1 className="profile-header">My Profile</h1>
-          <button className="logout-btn" onClick={handleLogout}>
-              Logout
-            </button>
           <button className="edit-profile-btn" onClick={handleEditProfile}>
             Edit Profile
           </button>
