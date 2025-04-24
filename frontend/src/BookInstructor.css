@@ -1,0 +1,251 @@
+/* Main Layout */
+.book-instructor-page {
+    display: flex;
+    min-height: 100vh;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  }
+  
+  .sidebar {
+    width: 220px;
+    background-color: #2c3e50;
+    color: white;
+    padding: 20px;
+  }
+  
+  .sidebar h2 {
+    color: #3498db;
+    margin-bottom: 30px;
+  }
+  
+  .sidebar ul {
+    list-style: none;
+    padding: 0;
+  }
+  
+  .sidebar li {
+    padding: 12px 15px;
+    margin-bottom: 5px;
+    cursor: pointer;
+    border-radius: 4px;
+    transition: all 0.2s;
+  }
+  
+  .sidebar li:hover {
+    background-color: #34495e;
+  }
+  
+  .sidebar li.active {
+    background-color: #3498db;
+    color: white;
+  }
+  
+  .main-content {
+    flex: 1;
+    padding: 20px;
+    background-color: #f5f7fa;
+  }
+  
+  /* Header */
+  .header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+  }
+  
+  .header h1 {
+    color: #2c3e50;
+    font-size: 1.8rem;
+  }
+  
+  .filter-toggle {
+    background-color: #3498db;
+    color: white;
+    border: none;
+    padding: 8px 15px;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+  
+  /* Filters Panel */
+  .filters-panel {
+    background: white;
+    padding: 15px;
+    border-radius: 8px;
+    margin-bottom: 20px;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 15px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+  }
+  
+  .filter-group {
+    margin-bottom: 10px;
+  }
+  
+  .filter-group label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: 500;
+    color: #34495e;
+  }
+  
+  .filter-group select {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+  }
+  
+  .range-slider {
+    padding: 10px 0;
+  }
+  
+  .range-slider input[type="range"] {
+    width: 100%;
+    margin: 5px 0;
+  }
+  
+  /* Instructors List */
+  .instructors-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 20px;
+  }
+  
+  .instructor-card {
+    background: white;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    transition: transform 0.2s;
+  }
+  
+  .instructor-card:hover {
+    transform: translateY(-3px);
+  }
+  
+  .card-header {
+    background-color: #3498db;
+    color: white;
+    padding: 15px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  .card-header h3 {
+    margin: 0;
+    font-size: 1.2rem;
+  }
+  
+  .badge {
+    padding: 3px 8px;
+    border-radius: 12px;
+    font-size: 0.8rem;
+    font-weight: bold;
+  }
+  
+  .badge.amateur {
+    background-color: #f39c12;
+  }
+  
+  .badge.professional {
+    background-color: #2ecc71;
+  }
+  
+  .badge.expert {
+    background-color: #e74c3c;
+  }
+  
+  .card-body {
+    padding: 15px;
+    display: flex;
+    flex-direction: column;
+    height: calc(100% - 60px);
+  }
+  
+  .details {
+    flex-grow: 1;
+  }
+  
+  .details p {
+    margin: 8px 0;
+    color: #34495e;
+    display: flex;
+    align-items: center;
+  }
+  
+  .details i {
+    margin-right: 8px;
+    color: #7f8c8d;
+    width: 20px;
+    text-align: center;
+  }
+  
+  .slots {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 8px;
+  }
+  
+  .slots span {
+    background-color: #e8f4fd;
+    color: #3498db;
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-size: 0.9rem;
+  }
+  
+  .book-btn {
+    background-color: #2ecc71;
+    color: white;
+    border: none;
+    padding: 8px;
+    border-radius: 4px;
+    margin-top: 15px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: background-color 0.2s;
+  }
+  
+  .book-btn:hover {
+    background-color: #27ae60;
+  }
+  
+  /* No Results */
+  .no-results {
+    text-align: center;
+    padding: 40px;
+    grid-column: 1 / -1;
+  }
+  
+  .no-results button {
+    background-color: #3498db;
+    color: white;
+    border: none;
+    padding: 8px 15px;
+    border-radius: 4px;
+    margin-top: 15px;
+    cursor: pointer;
+  }
+  
+  /* Responsive */
+  @media (max-width: 768px) {
+    .book-instructor-page {
+      flex-direction: column;
+    }
+    
+    .sidebar {
+      width: 100%;
+    }
+    
+    .filters-panel {
+      grid-template-columns: 1fr;
+    }
+    
+    .instructors-list {
+      grid-template-columns: 1fr;
+    }
+  }

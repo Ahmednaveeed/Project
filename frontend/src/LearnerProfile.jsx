@@ -63,7 +63,7 @@ const LearnerProfile = () => {
           <li onClick={() => navigateTo('/bookings')}>View Bookings</li>
           <li onClick={() => navigateTo('/learning-material')}>Learning Material</li>
           <li onClick={() => navigateTo('/quiz')}>Take Quiz</li>
-          <li onClick={() => navigateTo('/book-instructor')}>Book Instructor</li>
+          <li onClick={() => navigate('/book-instructor')}>Book Instructor</li>
           <li className="logout-item" onClick={handleLogout}>
             <span className="logout-icon">⎋</span> Logout
           </li>
