@@ -1,0 +1,15 @@
+package com.roadmaster.roadmaster.controllers;
+
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+@RestController
+@RequestMapping("/")
+public class Homecontroller {
+
+    @GetMapping
+    public String home() {
+        return "Welcome to RoadMaster!";
+    }
+}
