@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './Quiz.css';
+import "./LearnerProfile.css"; // Reuse styles for sidebar and layout
 
 const Quiz = () => {
   const navigate = useNavigate();
@@ -110,7 +111,6 @@ const Quiz = () => {
       ],
       correctAnswer: 0
     }
-    // ... (add the rest of your 9 questions here)
   ];
 
   const handleAnswerSelect = (optionIndex) => {
@@ -150,9 +150,9 @@ const Quiz = () => {
 
   return (
     <div className="quiz-page">
-      <div className="quiz-sidebar">
-        <h2 className="quiz-sidebar-title">DriveMaster</h2>
-        <ul className="quiz-sidebar-menu">
+      <div className="sidebar">
+        <h2 className="sidebar-title">Road Master</h2>
+        <ul className="sidebar-menu">
           <li onClick={() => navigate("/LearnerProfile")}>My Profile</li>
           <li onClick={() => navigate("/bookings")}>View Bookings</li>
           <li onClick={() => navigate("/learning-material")}>Learning Material</li>

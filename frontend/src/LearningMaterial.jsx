@@ -14,7 +14,7 @@ const LearningMaterial = () => {
     <div className="profile-container">
       {/* Sidebar */}
       <div className="sidebar">
-        <h2 className="sidebar-title">DriveMaster</h2>
+        <h2 className="sidebar-title">Road Master</h2>
         <ul className="sidebar-menu">
           <li onClick={() => navigate("/LearnerProfile")}>My Profile</li>
           <li onClick={() => navigate("/bookings")}>View Bookings</li>

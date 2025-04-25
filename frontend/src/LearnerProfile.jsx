@@ -57,11 +57,11 @@ const LearnerProfile = () => {
     <div className="profile-container">
       {/* Sidebar */}
       <div className="sidebar">
-        <h2 className="sidebar-title">DriveMaster</h2>
+        <h2 className="sidebar-title">Road Master</h2>
         <ul className="sidebar-menu">
-          <li className="active" onClick={() => navigateTo('/profile')}>My Profile</li>
+          <li className="active" onClick={() => navigateTo('/LearnerProfile')}>My Profile</li>
           <li onClick={() => navigateTo('/bookings')}>View Bookings</li>
-          <li onClick={() => navigate('/learning-material')}>Learning Materials</li>
+          <li onClick={() => navigate('/learning-material')}>Learning Material</li>
           <li onClick={() => navigateTo('/quiz')}>Take Quiz</li>
           <li onClick={() => navigate('/book-instructor')}>Book Instructor</li>
           <li className="logout-item" onClick={handleLogout}>

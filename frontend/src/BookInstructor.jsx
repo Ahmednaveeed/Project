@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './BookInstructor.css';
 
@@ -15,19 +15,38 @@ const BookInstructor = () => {
 
   useEffect(() => {
     const loadInstructors = () => {
+      // Get all users from localStorage
       const users = JSON.parse(localStorage.getItem('users')) || [];
       const instructorData = JSON.parse(localStorage.getItem('instructorData')) || {};
       
+      console.log('Users from localStorage:', users);
+      console.log('Instructor data from localStorage:', instructorData);
+      
+      // Filter users who are instructors and map their data
       const allInstructors = users
         .filter(user => user.role === 'instructor')
-        .map(user => ({
-          ...user,
-          ...(instructorData[user.email] || {}),
-          id: user.email,
-          vehicle: instructorData[user.email]?.vehicle || { vehicleType: '', makeModel: '' },
-          availabilitySchedule: instructorData[user.email]?.availabilitySchedule || []
-        }));
+        .map(user => {
+          // Get instructor-specific data
+          const instructorInfo = instructorData[user.email] || {};
+          console.log(`Instructor info for ${user.email}:`, instructorInfo);
+          
+          return {
+            ...user,
+            ...instructorInfo,
+            id: user.email,
+            // Make sure we're accessing the vehicle data correctly
+            vehicle: instructorInfo.vehicle || { 
+              vehicleType: instructorInfo.transmissionType || '', 
+              makeModel: instructorInfo.carDetails || '' 
+            },
+            availabilitySchedule: instructorInfo.availabilitySchedule || [],
+            // Make sure we're using the correct hourly rate
+            hourlyRate: instructorInfo.hourlyRate || 0,
+            experience: instructorInfo.experience || 'amateur'
+          };
+        });
       
+      console.log('Processed instructors:', allInstructors);
       setInstructors(allInstructors);
     };
 
@@ -35,12 +54,19 @@ const BookInstructor = () => {
   }, []);
 
   const filteredInstructors = instructors.filter(instructor => {
-    return (
-      (filters.vehicleType === '' || instructor.vehicle.vehicleType === filters.vehicleType) &&
-      (filters.availableDate === '' || instructor.availabilitySchedule.some(s => s.date === filters.availableDate)) &&
-      (filters.experience === '' || instructor.experience === filters.experience) &&
-      (instructor.hourlyRate >= filters.priceRange[0] && instructor.hourlyRate <= filters.priceRange[1])
-    );
+    const matchesVehicleType = !filters.vehicleType || 
+      instructor.vehicle?.vehicleType === filters.vehicleType;
+    
+    const matchesDate = !filters.availableDate || 
+      instructor.availabilitySchedule?.some(s => s.date === filters.availableDate);
+    
+    const matchesExperience = !filters.experience || 
+      instructor.experience === filters.experience;
+    
+    const matchesPrice = instructor.hourlyRate >= filters.priceRange[0] && 
+      instructor.hourlyRate <= filters.priceRange[1];
+
+    return matchesVehicleType && matchesDate && matchesExperience && matchesPrice;
   });
 
   const availableDates = [...new Set(
@@ -58,20 +84,20 @@ const BookInstructor = () => {
     <div className="book-instructor-page">
       {/* Sidebar */}
       <div className="sidebar">
-        <h2>Road Master</h2>
-        <ul>
+        <h2 className="sidebar-title">Road Master</h2>
+        <ul className="sidebar-menu">
           <li onClick={() => navigate('/LearnerProfile')}>My Profile</li>
-          <li onClick={() => navigate('/bookings')}>My Bookings</li>
-          <li className="active">Find Instructor</li>
-          <li onClick={() => navigate('/learning-material')}>Learning Materials</li>
+          <li onClick={() => navigate('/bookings')}>View Bookings</li>
+          <li onClick={() => navigate('/learning-material')}>Learning Material</li>
           <li onClick={() => navigate('/quiz')}>Take Quiz</li>
+          <li className="active">Book Instructor</li>
         </ul>
       </div>
 
       {/* Main Content */}
       <div className="main-content">
         <div className="header">
-          <h1>Find Driving Instructor</h1>
+          <h1>Book Instructor</h1>
           <button 
             className="filter-toggle"
             onClick={() => setShowFilters(!showFilters)}
@@ -163,8 +189,12 @@ const BookInstructor = () => {
                 
                 <div className="card-body">
                   <div className="details">
-                    <p><i className="fas fa-car"></i> {instructor.vehicle.makeModel} ({instructor.vehicle.vehicleType})</p>
-                    <p><i className="fas fa-money-bill-wave"></i> PKR {instructor.hourlyRate}/hr</p>
+                    <p>
+                      <i className="fas fa-car"></i> 
+                      {instructor.vehicle.makeModel || instructor.carDetails || 'No car details'} 
+                      ({instructor.vehicle.vehicleType || instructor.transmissionType || 'Unknown type'})
+                    </p>
+                    <p><i className="fas fa-money-bill-wave"></i> PKR {instructor.hourlyRate || 0}/hr</p>
                     {filters.availableDate && (
                       <div className="availability">
                         <p><i className="fas fa-calendar-day"></i> Available Slots:</p>

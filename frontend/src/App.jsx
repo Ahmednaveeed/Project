@@ -15,6 +15,10 @@ import Quiz from "./Quiz";
 import BookInstructor from "./BookInstructor";
 import LearningMaterial from "./LearningMaterial"; 
 import ViewBookings from "./ViewBookings"; 
+import ManageLessons from "./ManageLessons";
+import BookingRequests from "./BookingRequests";
+import Earnings from "./Earnings";
+import Ratings from "./Ratings";
 
 function App() {
   return (
@@ -29,6 +33,7 @@ function App() {
         <Route path="/Learnerprofile" element={<LearnerProfile />} />
         <Route path="/InstructorProfile" element={<InstructorProfile />} />
         {/* Placeholder routes for navigation */}
+        <Route path="/manage-lessons" element={<ManageLessons />} />
         <Route path="/bookings" element={<ViewBookings />} />
         <Route path="/learning-material" element={<LearningMaterial />} />
         <Route path="/book-instructor" element={<BookInstructor />} />
@@ -38,16 +43,9 @@ function App() {
         <Route path="/admin/instructors" element={<ViewUsers userType="instructor" />} />
         <Route path="/change-password" element={<ChangePassword />} />
         <Route path="/add-vehicle" element={<AddVehicle />} />
-        <Route path="/bookings" element={<div>Bookings Page</div>} />
-        <Route path="/learning-material" element={<div>Learning Material Page</div>} />
-        <Route path="/quiz" element={<div>Quiz Page</div>} />
-        <Route path="/book-instructor" element={<div>Book Instructor Page</div>} />
-        <Route path="/profile" element={<div>Profile Page</div>} />   
-        <Route path="/manage-lessons" element={<div>Manage Lessons Page</div>} />
-        <Route path="/booking-requests" element={<div>Booking Requests Page</div>} />
-        <Route path="/availability" element={<div>Availability Page</div>} />
-        <Route path="/ratings" element={<div>Ratings Page</div>} />
-        <Route path="/earnings" element={<div>Earnings Page</div>} />
+        <Route path="/booking-requests" element={<BookingRequests />} />
+        <Route path="/earnings" element={<Earnings />} />
+        <Route path="/ratings" element={<Ratings />} />
       </Routes>
     </Router>
   );
