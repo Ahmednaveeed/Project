@@ -1,6 +1,5 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import axios from "axios"; // Import Axios
 import "./Auth.css";
 
 const Login = () => {
@@ -10,39 +9,50 @@ const Login = () => {
   const [error, setError] = useState("");
   const navigate = useNavigate();
 
-  const handleLogin = async () => {
-    try {
-      // Prepare the request payload
-      const loginData = {
-        email,
-        password,
-        role,
-      };
+  const handleLogin = () => {
 
-      // Make a POST request to the backend login endpoint
-      const response = await axios.post("http://localhost:8080/api/auth/login", loginData, {
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
+    if (role === 'admin' && email === 'admin@gmail.com' && password === '123456') {
+      localStorage.setItem('authToken', 'mock-admin-token');
+      localStorage.setItem('currentAdmin', JSON.stringify({
+        name: 'Admin User',
+        email: 'admin@gmail.com'
+      }));
+      navigate('/AdminProfile');
+      return;
+    }
 
-      // If login is successful, save the token and user data
-      if (response.status === 200) {
-        const userData = response.data; // Adjust according to your backend response
+    // Get all registered users
+    const users = JSON.parse(localStorage.getItem("users")) || [];
+    
+    // Find matching user
+    const user = users.find(u => 
+      u.email === email && 
+      u.password === password && 
+      u.role === role
+    );
 
-        localStorage.setItem("authToken", userData.token); // Assuming backend sends a token
-        localStorage.setItem("currentUser", JSON.stringify(userData));
-
-        // Redirect based on the user role
-        if (role === "instructor") {
-          // Redirect to the instructor profile page
-          navigate("/InstructorProfile");
-        } else if (role === "learner") {
-          // Redirect to the learner profile page
-          navigate("/LearnerProfile");
+    if (user) {
+      // Set auth token and current user
+      localStorage.setItem("authToken", "mock-token");
+      localStorage.setItem("currentUser", JSON.stringify(user));
+      
+      // Redirect based on role
+      if (role === "instructor") {
+        // Initialize instructor data if doesn't exist
+        if (!localStorage.getItem("instructorData")) {
+          localStorage.setItem("instructorData", JSON.stringify({
+            ...user,
+            hourlyRate: 1000, // Default rate
+            availability: true,
+            experience: "Not specified",
+            vehicle: null
+          }));
         }
+        navigate("/InstructorProfile");
+      } else {
+        navigate("/LearnerProfile");
       }
-    } catch (error) {
+    } else {
       setError("Invalid login credentials!");
     }
   };
@@ -52,7 +62,7 @@ const Login = () => {
       <div className="login-card">
         <h1 className="login-title">Road Master</h1>
         <h2 className="login-subtitle">Login to Your Account</h2>
-
+        
         {error && <div className="error-message">{error}</div>}
 
         <div className="login-form">
@@ -85,10 +95,8 @@ const Login = () => {
             </select>
           </div>
 
-          <button className="login-button" onClick={handleLogin}>
-            Login
-          </button>
-
+          <button className="login-button" onClick={handleLogin}>Login</button>
+          
           <p className="register-text">
             Don't have an account?{" "}
             <span className="register-link" onClick={() => navigate("/register")}>
