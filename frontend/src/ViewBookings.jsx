@@ -30,10 +30,10 @@ const ViewBookings = () => {
         <h2 className="sidebar-title">Road Master</h2>
         <ul className="sidebar-menu">
           <li onClick={() => navigate("/LearnerProfile")}>My Profile</li>
-          <li className="active" onClick={() => navigate("/bookings")}>View Bookings</li>
-          <li onClick={() => navigate("/learning-material")}>Learning Material</li>
-          <li onClick={() => navigate("/quiz")}>Take Quiz</li>
-          <li onClick={() => navigate("/book-instructor")}>Book Instructor</li>
+          <li className="active" onClick={() => navigate("/ViewBookings")}>View Bookings</li>
+          <li onClick={() => navigate("/LearningMaterial")}>Learning Material</li>
+          <li onClick={() => navigate("/Quiz")}>Take Quiz</li>
+          <li onClick={() => navigate("/BookInstructor")}>Book Instructor</li>
           <li className="logout-item" onClick={handleLogout}>
             <span className="logout-icon">⎋</span> Logout
           </li>

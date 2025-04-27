@@ -80,6 +80,10 @@ const BookInstructor = () => {
     { value: 'expert', label: 'Expert' }
   ];
 
+  const handleBookNow = (instructorId) => {
+    navigate(`/BookingForm/${instructorId}`);
+  };
+
   return (
     <div className="book-instructor-page">
       {/* Sidebar */}
@@ -87,10 +91,10 @@ const BookInstructor = () => {
         <h2 className="sidebar-title">Road Master</h2>
         <ul className="sidebar-menu">
           <li onClick={() => navigate('/LearnerProfile')}>My Profile</li>
-          <li onClick={() => navigate('/bookings')}>View Bookings</li>
-          <li onClick={() => navigate('/learning-material')}>Learning Material</li>
-          <li onClick={() => navigate('/quiz')}>Take Quiz</li>
-          <li className="active">Book Instructor</li>
+          <li onClick={() => navigate('/ViewBookings')}>View Bookings</li>
+          <li onClick={() => navigate('/LearningMaterial')}>Learning Material</li>
+          <li onClick={() => navigate('/Quiz')}>Take Quiz</li>
+          <li className="active" onClick={() => navigate('/BookInstructor')}>Book Instructor</li>
         </ul>
       </div>
 
@@ -211,7 +215,7 @@ const BookInstructor = () => {
                   
                   <button 
                     className="book-btn"
-                    onClick={() => navigate('/create-booking', { state: { instructor } })}
+                    onClick={() => handleBookNow(instructor.id)}
                   >
                     Book Now
                   </button>

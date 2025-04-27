@@ -2,6 +2,7 @@ import { useNavigate } from "react-router-dom";
 import "./LearningMaterial.css"; // New styles
 import pdf1 from "./pdfs/sample1.pdf";
 import pdf2 from "./pdfs/sample2.pdf";
+import { Link } from "react-router-dom";
 
 const LearningMaterial = () => {
   const navigate = useNavigate();
@@ -17,10 +18,14 @@ const LearningMaterial = () => {
         <h2 className="sidebar-title">Road Master</h2>
         <ul className="sidebar-menu">
           <li onClick={() => navigate("/LearnerProfile")}>My Profile</li>
-          <li onClick={() => navigate("/bookings")}>View Bookings</li>
-          <li className="active" onClick={() => navigate("/learning-material")}>Learning Material</li>
-          <li onClick={() => navigate("/quiz")}>Take Quiz</li>
-          <li onClick={() => navigate("/book-instructor")}>Book Instructor</li>
+          <li onClick={() => navigate("/ViewBookings")}>View Bookings</li>
+          <li className="nav-item">
+            <Link to="/LearningMaterial" className="nav-link">
+              <i className="fas fa-book"></i> Learning Material
+            </Link>
+          </li>
+          <li onClick={() => navigate("/Quiz")}>Take Quiz</li>
+          <li onClick={() => navigate("/BookInstructor")}>Book Instructor</li>
 
         </ul>
       </div>

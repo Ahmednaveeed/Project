@@ -36,18 +36,8 @@ const ViewUsers = ({ userType }) => {
         <h2 className="sidebar-title">Road Master</h2>
         <ul className="sidebar-menu">
           <li onClick={() => navigate('/AdminProfile')}>Dashboard</li>
-          <li
-            className={userType === 'learner' ? 'active' : ''}
-            onClick={() => navigate('/admin/learners')}
-          >
-            View Learners
-          </li>
-          <li
-            className={userType === 'instructor' ? 'active' : ''}
-            onClick={() => navigate('/admin/instructors')}
-          >
-            View Instructors
-          </li>
+          <li onClick={() => navigate('/AdminLearners')}>View Learners</li>
+          <li onClick={() => navigate('/AdminInstructors')}>View Instructors</li>
         </ul>
       </div>
 

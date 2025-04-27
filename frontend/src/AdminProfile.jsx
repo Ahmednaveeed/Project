@@ -47,12 +47,12 @@ const AdminProfile = () => {
             <i className="fas fa-tachometer-alt"></i>
             <span>Dashboard</span>
           </div>
-          <div className="menu-item" onClick={() => navigate('/admin/learners')}>
+          <div className="menu-item" onClick={() => navigate('/AdminLearners')}>
             <i className="fas fa-users"></i>
             <span>Learners</span>
             <span className="badge">{stats.learners}</span>
           </div>
-          <div className="menu-item" onClick={() => navigate('/admin/instructors')}>
+          <div className="menu-item" onClick={() => navigate('/AdminInstructors')}>
             <i className="fas fa-chalkboard-teacher"></i>
             <span>Instructors</span>
             <span className="badge">{stats.instructors}</span>
@@ -92,7 +92,7 @@ const AdminProfile = () => {
             className="stat-card learners"
             onMouseEnter={() => setIsHovered('learners')}
             onMouseLeave={() => setIsHovered(null)}
-            onClick={() => navigate('/admin/learners')}
+            onClick={() => navigate('/AdminLearners')}
           >
             <div className="stat-icon">
               <i className="fas fa-users"></i>
@@ -110,7 +110,7 @@ const AdminProfile = () => {
             className="stat-card instructors"
             onMouseEnter={() => setIsHovered('instructors')}
             onMouseLeave={() => setIsHovered(null)}
-            onClick={() => navigate('/admin/instructors')}
+            onClick={() => navigate('/AdminInstructors')}
           >
             <div className="stat-icon">
               <i className="fas fa-chalkboard-teacher"></i>

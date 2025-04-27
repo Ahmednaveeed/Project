@@ -1,142 +1,249 @@
-import axios from "axios";
-import { useState } from "react";
-import { useNavigate } from "react-router-dom";
-import "./Auth.css";
+import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { authService } from './services/api';
+import './Register.css';
 
 const Register = () => {
-  const [fullName, setFullName] = useState("");
-  const [email, setEmail] = useState("");
-  const [age, setAge] = useState("");
-  const [password, setPassword] = useState("");
-  const [confirmPassword, setConfirmPassword] = useState("");
-  const [role, setRole] = useState("learner");
-  const [error, setError] = useState("");
-  const [success, setSuccess] = useState("");
   const navigate = useNavigate();
+  const [formData, setFormData] = useState({
+    email: '',
+    password: '',
+    firstName: '',
+    lastName: '',
+    phoneNumber: '',
+    role: 'learner',
+    dateOfBirth: '',
+    vehicleType: 'car',
+    licenseNumber: '',
+    yearsOfExperience: '',
+    hourlyRate: 1000,
+    vehicleTypes: ['car']
+  });
+  const [error, setError] = useState('');
+  const [loading, setLoading] = useState(false);
 
-  const handleRegister = async () => {
-    setError("");
-    setSuccess("");
-  
-    if (password !== confirmPassword) {
-      setError("Passwords don't match!");
-      return;
-    }
-  
-    if (password.length < 6) {
-      setError("Password must be at least 6 characters");
-      return;
-    }
-  
+  const handleChange = (e) => {
+    setFormData({
+      ...formData,
+      [e.target.name]: e.target.value,
+    });
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setError('');
+    setLoading(true);
+
     try {
-      await axios.post("http://localhost:8080/api/auth/register", {
-        fullName,
-        email,
-        age,
-        password,
-        role
-      });
-  
-      setSuccess("Registration successful! Please log in.");
-      setTimeout(() => navigate("/login"), 1500);
+      console.log('Attempting registration with data:', formData);
+      const response = await authService.register(formData);
+      console.log('Registration response:', response);
+      
+      if (response.status === 201) {
+        navigate('/login');
+      } else {
+        setError('Registration failed. Please try again.');
+      }
     } catch (err) {
-      setError(err.response?.data?.message || "Registration failed.");
+      console.error('Registration error:', err);
+      console.error('Error response:', err.response);
+      
+      if (err.response) {
+        // The request was made and the server responded with a status code
+        // that falls out of the range of 2xx
+        setError(err.response.data.message || 'Registration failed. Please try again.');
+      } else if (err.request) {
+        // The request was made but no response was received
+        setError('No response from server. Please check if the backend is running.');
+      } else {
+        // Something happened in setting up the request that triggered an Error
+        setError('An error occurred while setting up the request.');
+      }
+    } finally {
+      setLoading(false);
     }
   };
 
   return (
-    <div className="login-container">
-      <div className="login-card">
-        <h1 className="login-title">Road Master</h1>
-        <h2 className="login-subtitle">Register</h2>
-        
+    <div className="register-container">
+      <div className="register-form">
+        <h2>Register</h2>
         {error && <div className="error-message">{error}</div>}
-        {success && <div className="success-message">{success}</div>}
-
-        <div className="login-form">
+        <form onSubmit={handleSubmit}>
           <div className="form-group">
-            <label>Full Name</label>
+            <label>First Name</label>
             <input
               type="text"
-              placeholder="Your full name"
-              value={fullName}
-              onChange={(e) => setFullName(e.target.value)}
+              name="firstName"
+              value={formData.firstName}
+              onChange={handleChange}
               required
             />
           </div>
-
+          <div className="form-group">
+            <label>Last Name</label>
+            <input
+              type="text"
+              name="lastName"
+              value={formData.lastName}
+              onChange={handleChange}
+              required
+            />
+          </div>
           <div className="form-group">
             <label>Email</label>
             <input
               type="email"
-              placeholder="Your email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
+              name="email"
+              value={formData.email}
+              onChange={handleChange}
               required
             />
           </div>
-
           <div className="form-group">
-            <label>Age</label>
+            <label>Phone Number</label>
             <input
-              type="number"
-              placeholder="18"
-              value={age}
-              onChange={(e) => setAge(e.target.value)}
-              min="16"
+              type="tel"
+              name="phoneNumber"
+              value={formData.phoneNumber}
+              onChange={handleChange}
               required
             />
           </div>
-
           <div className="form-group">
             <label>Password</label>
             <input
               type="password"
-              placeholder="Create a password (min 6 characters)"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
+              name="password"
+              value={formData.password}
+              onChange={handleChange}
+              required
               minLength="6"
-              required
             />
           </div>
-
-          <div className="form-group">
-            <label>Confirm Password</label>
-            <input
-              type="password"
-              placeholder="Confirm your password"
-              value={confirmPassword}
-              onChange={(e) => setConfirmPassword(e.target.value)}
-              required
-            />
-          </div>
-
           <div className="form-group">
             <label>Role</label>
             <select 
-              value={role} 
-              onChange={(e) => setRole(e.target.value)}
+              name="role"
+              value={formData.role}
+              onChange={handleChange}
               required
             >
               <option value="learner">Learner</option>
               <option value="instructor">Instructor</option>
             </select>
           </div>
-
-          <button className="login-button" onClick={handleRegister}>
-            Register
+          {formData.role === 'instructor' && (
+            <>
+              <div className="form-group">
+                <label>License Number</label>
+                <input
+                  type="text"
+                  name="licenseNumber"
+                  value={formData.licenseNumber}
+                  onChange={handleChange}
+                  required={formData.role === 'instructor'}
+                />
+              </div>
+              <div className="form-group">
+                <label>Years of Experience</label>
+                <input
+                  type="number"
+                  name="yearsOfExperience"
+                  value={formData.yearsOfExperience}
+                  onChange={handleChange}
+                  required={formData.role === 'instructor'}
+                  min="0"
+                />
+              </div>
+              <div className="form-group">
+                <label>Hourly Rate (PKR)</label>
+                <input
+                  type="number"
+                  name="hourlyRate"
+                  value={formData.hourlyRate}
+                  onChange={handleChange}
+                  min="0"
+                />
+              </div>
+              <div className="form-group">
+                <label>Vehicle Types</label>
+                <div className="checkbox-group">
+                  <label>
+                    <input
+                      type="checkbox"
+                      checked={formData.vehicleTypes.includes('car')}
+                      onChange={(e) => {
+                        const newTypes = e.target.checked
+                          ? [...formData.vehicleTypes, 'car']
+                          : formData.vehicleTypes.filter(type => type !== 'car');
+                        setFormData({ ...formData, vehicleTypes: newTypes });
+                      }}
+                    />
+                    Car
+                  </label>
+                  <label>
+                    <input
+                      type="checkbox"
+                      checked={formData.vehicleTypes.includes('motorcycle')}
+                      onChange={(e) => {
+                        const newTypes = e.target.checked
+                          ? [...formData.vehicleTypes, 'motorcycle']
+                          : formData.vehicleTypes.filter(type => type !== 'motorcycle');
+                        setFormData({ ...formData, vehicleTypes: newTypes });
+                      }}
+                    />
+                    Motorcycle
+                  </label>
+                  <label>
+                    <input
+                      type="checkbox"
+                      checked={formData.vehicleTypes.includes('truck')}
+                      onChange={(e) => {
+                        const newTypes = e.target.checked
+                          ? [...formData.vehicleTypes, 'truck']
+                          : formData.vehicleTypes.filter(type => type !== 'truck');
+                        setFormData({ ...formData, vehicleTypes: newTypes });
+                      }}
+                    />
+                    Truck
+                  </label>
+                </div>
+              </div>
+            </>
+          )}
+          {formData.role === 'learner' && (
+            <>
+              <div className="form-group">
+                <label>Date of Birth</label>
+                <input
+                  type="date"
+                  name="dateOfBirth"
+                  value={formData.dateOfBirth}
+                  onChange={handleChange}
+                />
+              </div>
+              <div className="form-group">
+                <label>Preferred Vehicle Type</label>
+                <select
+                  name="vehicleType"
+                  value={formData.vehicleType}
+                  onChange={handleChange}
+                >
+                  <option value="car">Car</option>
+                  <option value="motorcycle">Motorcycle</option>
+                  <option value="truck">Truck</option>
+                </select>
+              </div>
+            </>
+          )}
+          <button type="submit" disabled={loading}>
+            {loading ? 'Registering...' : 'Register'}
           </button>
-          
-          <p className="register-text">
-            Already have an account?{" "}
-            <span 
-              className="register-link" 
-              onClick={() => navigate("/login")}
-            >
-              Login
-            </span>
-          </p>
-        </div>
+        </form>
+        <p className="login-link">
+          Already have an account? <a href="/login">Login here</a>
+        </p>
       </div>
     </div>
   );

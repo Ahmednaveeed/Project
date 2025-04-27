@@ -154,10 +154,10 @@ const Quiz = () => {
         <h2 className="sidebar-title">Road Master</h2>
         <ul className="sidebar-menu">
           <li onClick={() => navigate("/LearnerProfile")}>My Profile</li>
-          <li onClick={() => navigate("/bookings")}>View Bookings</li>
-          <li onClick={() => navigate("/learning-material")}>Learning Material</li>
-          <li className="active">Take Quiz</li>
-          <li onClick={() => navigate("/book-instructor")}>Book Instructor</li>
+          <li onClick={() => navigate("/ViewBookings")}>View Bookings</li>
+          <li onClick={() => navigate("/LearningMaterial")}>Learning Material</li>
+          <li className="active" onClick={() => navigate("/Quiz")}>Take Quiz</li>
+          <li onClick={() => navigate("/BookInstructor")}>Book Instructor</li>
         </ul>
       </div>
 

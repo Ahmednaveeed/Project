@@ -1,41 +1,17 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import axios from "axios";  // Assuming you're using axios for API requests
 import "./Dashboard.css";
 
 const Dashboard = () => {
   const navigate = useNavigate();
-  const [userRole, setUserRole] = useState(null);
-  const [userData, setUserData] = useState(null); // To store fetched user data
-  const [loading, setLoading] = useState(true);
+  const [user, setUser] = useState(null);
 
   useEffect(() => {
-    const storedRole = localStorage.getItem("userRole");
-    if (!storedRole) {
-      navigate("/login"); // Redirect if no role found
+    const userData = localStorage.getItem("user");
+    if (!userData) {
+      navigate("/login");
     } else {
-      setUserRole(storedRole);
-    }
-
-    // Fetch user data after determining role
-    const fetchUserData = async () => {
-      try {
-        let response;
-        if (storedRole === "learner") {
-          response = await axios.get("http://localhost:8080/api/learner/LearnerProfile");
-        } else if (storedRole === "instructor") {
-          response = await axios.get("http://localhost:8080/api/instructor/InstructorProfile");
-        }
-        setUserData(response.data);
-      } catch (error) {
-        console.error("Error fetching user data:", error);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    if (storedRole) {
-      fetchUserData();  // Fetch data only when role is set
+      setUser(JSON.parse(userData));
     }
   }, [navigate]);
 
@@ -44,46 +20,90 @@ const Dashboard = () => {
     navigate("/login");
   };
 
-  if (loading) {
-    return <div className="loading-spinner">Loading...</div>; // Show loading spinner while fetching data
+  if (!user) {
+    return <div className="loading">Loading...</div>;
   }
+
+  const handleNavigation = (path) => {
+    navigate(path);
+  };
 
   return (
     <div className="dashboard-container">
-      <h2>Welcome, {userRole === "learner" ? "Learner" : "Instructor"}!</h2>
-
-      {userData && (
-        <div className="user-info">
-          <p>Name: {userData.name}</p>
-          <p>Email: {userData.email}</p>
-          {/* Display other user data as needed */}
-        </div>
-      )}
+      <h2>Welcome, {user.firstName}!</h2>
 
       <div className="dashboard-buttons">
-        {userRole === "learner" ? (
+        {user.role === "learner" ? (
           <>
-            <div className="dashboard-box" onClick={() => navigate("/profile")}>View Profile</div>
-            <div className="dashboard-box" onClick={() => navigate("/bookings")}>View Bookings</div>
-            <div className="dashboard-box" onClick={() => navigate("/learning-material")}>View Learning Material</div>
-            <div className="dashboard-box" onClick={() => navigate("/quiz")}>Take Quiz</div>
-            <div className="dashboard-box" onClick={() => navigate("/book-instructor")}>Book Instructor</div>
+            <div className="dashboard-box" onClick={() => handleNavigation("/learner-profile")}>
+              View Profile
+            </div>
+            <div className="dashboard-box" onClick={() => handleNavigation("/ViewBookings")}>
+              <h3>View Bookings</h3>
+              <p>Check your scheduled lessons</p>
+            </div>
+            <div className="dashboard-box" onClick={() => handleNavigation("/LearningMaterials")}>
+              <h3>Learning Materials</h3>
+              <p>Access study materials</p>
+            </div>
+            <div className="dashboard-box" onClick={() => handleNavigation("/Quiz")}>
+              <h3>Take Quiz</h3>
+              <p>Test your knowledge</p>
+            </div>
+            <div className="dashboard-box" onClick={() => handleNavigation("/BookInstructor")}>
+              <h3>Book Instructor</h3>
+              <p>Schedule a lesson</p>
+            </div>
           </>
-        ) : userRole === "instructor" ? (
+        ) : user.role === "instructor" ? (
           <>
-            <div className="dashboard-box" onClick={() => navigate("/profile")}>View Profile</div>
-            <div className="dashboard-box" onClick={() => navigate("/manage-lessons")}>Manage Lessons</div>
-            <div className="dashboard-box" onClick={() => navigate("/booking-requests")}>Booking Requests</div>
-            <div className="dashboard-box" onClick={() => navigate("/availability")}>Set Availability Schedule</div>
-            <div className="dashboard-box" onClick={() => navigate("/ratings")}>View Ratings</div>
-            <div className="dashboard-box" onClick={() => navigate("/earnings")}>View Earnings</div>
+            <div className="dashboard-box" onClick={() => handleNavigation("/InstructorProfile")}>
+              <h3>View Profile</h3>
+              <p>Manage your instructor profile</p>
+            </div>
+            <div className="dashboard-box" onClick={() => handleNavigation("/ManageLessons")}>
+              <h3>Manage Lessons</h3>
+              <p>Schedule and manage lessons</p>
+            </div>
+            <div className="dashboard-box" onClick={() => handleNavigation("/BookingRequests")}>
+              <h3>Booking Requests</h3>
+              <p>View and manage booking requests</p>
+            </div>
+            <div className="dashboard-box" onClick={() => handleNavigation("/InstructorEditProfile")}>
+              <h3>Set Availability</h3>
+              <p>Update your schedule</p>
+            </div>
+            <div className="dashboard-box" onClick={() => handleNavigation("/AddVehicle")}>
+              <h3>Add Vehicle</h3>
+              <p>Register your vehicles</p>
+            </div>
+            <div className="dashboard-box" onClick={() => handleNavigation("/Ratings")}>
+              <h3>View Ratings</h3>
+              <p>Check your ratings and reviews</p>
+            </div>
+            <div className="dashboard-box" onClick={() => handleNavigation("/Earnings")}>
+              <h3>View Earnings</h3>
+              <p>Track your earnings</p>
+            </div>
           </>
-        ) : (
-          <p>Loading...</p>
-        )}
+        ) : user.role === "admin" ? (
+          <>
+            <div className="dashboard-box" onClick={() => handleNavigation("/admin-profile")}>
+              View Profile
+            </div>
+            <div className="dashboard-box" onClick={() => handleNavigation("/admin/learners")}>
+              Manage Learners
+            </div>
+            <div className="dashboard-box" onClick={() => handleNavigation("/admin/instructors")}>
+              Manage Instructors
+            </div>
+          </>
+        ) : null}
       </div>
 
-      <button className="logout-button" onClick={handleLogout}>Logout</button>
+      <button className="logout-button" onClick={handleLogout}>
+        Logout
+      </button>
     </div>
   );
 };

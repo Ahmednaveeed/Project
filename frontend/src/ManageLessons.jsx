@@ -9,7 +9,7 @@ const ManageLessons = () => {
 
   useEffect(() => {
     // Get current instructor from localStorage
-    const currentUser = JSON.parse(localStorage.getItem('currentUser'));
+    const currentUser = JSON.parse(localStorage.getItem('user'));
     if (currentUser && currentUser.role === 'instructor') {
       setCurrentInstructor(currentUser);
     } else {
@@ -67,9 +67,9 @@ const ManageLessons = () => {
         <ul className="sidebar-menu">
           <li onClick={() => navigate('/InstructorProfile')}>My Profile</li>
           <li className="active">Manage Lessons</li>
-          <li onClick={() => navigate('/booking-requests')}>Booking Requests</li>
-          <li onClick={() => navigate('/ratings')}>Ratings</li>
-          <li onClick={() => navigate('/earnings')}>Earnings</li>
+          <li onClick={() => navigate('/BookingRequests')}>Booking Requests</li>
+          <li onClick={() => navigate('/Ratings')}>Ratings</li>
+          <li onClick={() => navigate('/Earnings')}>Earnings</li>
         </ul>
       </div>
 

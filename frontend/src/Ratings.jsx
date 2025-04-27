@@ -24,7 +24,7 @@ const Ratings = () => {
   }, [filter]);
 
   const loadRatings = () => {
-    const currentUser = JSON.parse(localStorage.getItem('currentUser'));
+    const currentUser = JSON.parse(localStorage.getItem('user'));
     if (!currentUser) {
       navigate('/login');
       return;
@@ -118,10 +118,10 @@ const Ratings = () => {
         <h2 className="sidebar-title">Road Master</h2>
         <ul className="sidebar-menu">
           <li onClick={() => navigate('/InstructorProfile')}>My Profile</li>
-          <li onClick={() => navigate('/manage-lessons')}>Manage Lessons</li>
-          <li onClick={() => navigate('/booking-requests')}>Booking Requests</li>
+          <li onClick={() => navigate('/ManageLessons')}>Manage Lessons</li>
+          <li onClick={() => navigate('/BookingRequests')}>Booking Requests</li>
           <li className="active">Ratings</li>
-          <li onClick={() => navigate('/earnings')}>Earnings</li>
+          <li onClick={() => navigate('/Earnings')}>Earnings</li>
         </ul>
       </div>
 
