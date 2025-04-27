@@ -1,3 +1,4 @@
+import axios from "axios";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "./Auth.css";
@@ -13,61 +14,34 @@ const Register = () => {
   const [success, setSuccess] = useState("");
   const navigate = useNavigate();
 
-  const handleRegister = () => {
-    // Clear previous messages
+  const handleRegister = async () => {
     setError("");
     setSuccess("");
-
-    // Validation
+  
     if (password !== confirmPassword) {
       setError("Passwords don't match!");
       return;
     }
-
+  
     if (password.length < 6) {
       setError("Password must be at least 6 characters");
       return;
     }
-
-    // Get existing users or initialize empty array
-    const users = JSON.parse(localStorage.getItem("users")) || [];
-
-    // Check if email already exists
-    const emailExists = users.some(user => user.email === email);
-    if (emailExists) {
-      setError("Email already registered!");
-      return;
+  
+    try {
+      await axios.post("http://localhost:8080/api/auth/register", {
+        fullName,
+        email,
+        age,
+        password,
+        role
+      });
+  
+      setSuccess("Registration successful! Please log in.");
+      setTimeout(() => navigate("/login"), 1500);
+    } catch (err) {
+      setError(err.response?.data?.message || "Registration failed.");
     }
-
-    // Create new user object
-    const newUser = {
-      fullName,
-      email,
-      age,
-      password,
-      role
-    };
-
-    // Update users array
-    users.push(newUser);
-    localStorage.setItem("users", JSON.stringify(users));
-
-    // Initialize instructor data if needed
-    if (role === "instructor") {
-      localStorage.setItem("instructorData", JSON.stringify({
-        ...newUser,
-        hourlyRate: 1000,
-        availability: true,
-        experience: "Not specified",
-        vehicle: null
-      }));
-    }
-
-    // Show success message and redirect to login
-    setSuccess("Registration successful! Please log in.");
-    setTimeout(() => {
-      navigate("/login");
-    }, 1500); // Redirect after 1.5 seconds
   };
 
   return (

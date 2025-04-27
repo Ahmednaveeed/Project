@@ -1,3 +1,4 @@
+import axios from "axios";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "./Auth.css";
@@ -9,53 +10,32 @@ const Login = () => {
   const [error, setError] = useState("");
   const navigate = useNavigate();
 
-  const handleLogin = () => {
-
-    if (role === 'admin' && email === 'admin@gmail.com' && password === '123456') {
-      localStorage.setItem('authToken', 'mock-admin-token');
-      localStorage.setItem('currentAdmin', JSON.stringify({
-        name: 'Admin User',
-        email: 'admin@gmail.com'
-      }));
-      navigate('/AdminProfile');
-      return;
-    }
-
-    // Get all registered users
-    const users = JSON.parse(localStorage.getItem("users")) || [];
-    
-    // Find matching user
-    const user = users.find(u => 
-      u.email === email && 
-      u.password === password && 
-      u.role === role
-    );
-
-    if (user) {
-      // Set auth token and current user
+  const handleLogin = async () => {
+    setError("");
+  
+    try {
+      const res = await axios.post("http://localhost:8080/api/auth/login", {
+        email,
+        password,
+        role
+      });
+  
+      // Optional: you can use token from res.data.token if implemented
       localStorage.setItem("authToken", "mock-token");
-      localStorage.setItem("currentUser", JSON.stringify(user));
-      
-      // Redirect based on role
-      if (role === "instructor") {
-        // Initialize instructor data if doesn't exist
-        if (!localStorage.getItem("instructorData")) {
-          localStorage.setItem("instructorData", JSON.stringify({
-            ...user,
-            hourlyRate: 1000, // Default rate
-            availability: true,
-            experience: "Not specified",
-            vehicle: null
-          }));
-        }
+      localStorage.setItem("currentUser", JSON.stringify(res.data));
+  
+      if (role === "admin") {
+        navigate("/AdminProfile");
+      } else if (role === "instructor") {
         navigate("/InstructorProfile");
       } else {
         navigate("/LearnerProfile");
       }
-    } else {
-      setError("Invalid login credentials!");
+    } catch (err) {
+      setError(err.response?.data?.message || "Invalid login credentials!");
     }
   };
+  
 
   return (
     <div className="login-container">
